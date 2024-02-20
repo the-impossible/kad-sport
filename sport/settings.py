@@ -54,6 +54,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "sport.urls"
+AUTH_USER_MODEL = "sport_app.User"
+
 
 TEMPLATES = [
     {
