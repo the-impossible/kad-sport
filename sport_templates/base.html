@@ -2,15 +2,11 @@
 <html lang="en">
 	<head>
 		<title>KAD-SPORT | {% block title %} {% endblock %}</title>
-    	{% block head %} {% endblock %}
+		{% block head %} {% endblock %}
 	</head>
 
-	<body>
-    	{% block nav %} {% endblock %}
-		<div>
-			{% block body %}
-
-			{% endblock %}
-		</div>
+	<body class="light vertical light">
+		{% block nav %} {% endblock %}
+		<div>{% block body %} {% endblock %}</div>
 	</body>
 </html>

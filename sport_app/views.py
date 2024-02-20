@@ -10,4 +10,11 @@ from django.urls import reverse_lazy
 
 # Create your views here.
 class HomePageView(TemplateView):
-    template_name = "index.html"
+    template_name = "frontend/index.html"
+
+class LoginPageView(TemplateView):
+    template_name = "backend/login.html"
+class RegisterPageView(TemplateView):
+    template_name = "backend/register.html"
+class DashboardPageView(TemplateView):
+    template_name = "backend/dashboard.html"
