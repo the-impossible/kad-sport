@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Profile{% endblock %}
+{% load crispy_forms_tags %}
+{% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
+{% block body %}
+    <div class="wrapper">
+      {% include 'partials/login_nav.html' %}
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="h3 mb-4 page-title">Profile</h2>
+
+              <div class="row mt-5 align-items-center">
+                <div class="col-md-3 text-center mb-5">
+                  <div class="avatar avatar-xl">
+                    <img src="{{request.user.picture.url}}" alt="..." class="avatar-img rounded-circle">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row align-items-center">
+                    <div class="col-md-7">
+                      <h4 class="mb-1">{{request.user.name}}</h4>
+                      <p class="small mb-3"><span class="badge badge-dark">Active</span></p>
+                    </div>
+                  </div>
+                  <div class="row mb-4">
+                    <div class="col-md-7">
+                      <p class="small mb-0 text-muted">{{request.user.email}}</p>
+                      <p class="small mb-0 text-muted">{{request.user.phone}}</p>
+                    </div>
+                    <div class="col">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h3>Update Account Information</h3>
+              <p class="text-muted">Use the form below to update your account information or password.</p>
+              {% include 'partials/messages.html' %}
+              <div class="card-deck my-4">
+                <div class="card mb-4 shadow">
+                  <div class="card-body my-4">
+                    <h3 class="h5 mt-4 mb-0 text-center">Account</h3>
+                    <p class="text-muted text-center">fill the correctly to update account</p>
+                    <form action="" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {{form|crispy}}
+                      <button type="submit" class="btn btn-primary btn-block">Update</button>
+                    </form>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+                <div class="card mb-4">
+                  <div class="card-body my-4">
+                    <h3 class="h5 mt-4 mb-0 text-center">Password</h3>
+                    <p class="text-muted text-center">fill the correctly to update password</p>
+                    <form action="{% url 'app:change_password' request.user.pk %}" method="post">
+                      {% csrf_token %}
+                      <div class="row mb-3">
+                        <label class="col-12 col-form-label" for="basic-icon-default-fullname">Old Password</label>
+                        <div class="col-12">
+                          <input class="form-control" required type="password" name="password0">
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label class="col-12 col-form-label" for="basic-icon-default-fullname">Password</label>
+                        <div class="col-12">
+                          <input class="form-control" required type="password" name="password1">
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label class="col-12 col-form-label" for="basic-icon-default-company">Re-Enter Password</label>
+                        <div class="col-12">
+                          <input class="form-control" required type="password" name="password2">
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-block">Update</button>
+                    </form>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </div> <!-- .card-group -->
+            </div> <!-- /.col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main> <!-- main -->
+    </div> <!-- .wrapper -->
+
+  {% include "partials/auth_script.html" %}
+{% endblock %}

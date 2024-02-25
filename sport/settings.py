@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "sport_app",
+    "crispy_bootstrap5",
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [
@@ -127,11 +129,15 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [STATIC_DIR]
-
-# Media Files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'sport_static/uploaded')
+STATIC_URL = "static/"
+STATICFILES_DIRS = [STATIC_DIR,]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'sport_static')
+
+# CRISPY FORM
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+LOGIN_URL = 'app:login'

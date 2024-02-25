@@ -19,7 +19,12 @@
 <script src="{% static 'auth/js/datamaps-zoomto.js' %}"></script>
 <script src="{% static 'auth/js/datamaps.custom.js' %}"></script>
 <script src="{% static 'auth/js/Chart.min.js' %}"></script>
+
+{% if not request.path == '/screening_status' %}
+
 <script src="{% static 'auth/js/close.js' %}"></script>
+{% endif %}
+
 <script>
   /* defind global options */
   Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;

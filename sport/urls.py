@@ -23,6 +23,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('sport_app.urls', namespace='app')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+admin.site.site_header = "Kadpoly-Sport Website"
+admin.site.site_title = "Kadpoly-Sport Website"
+admin.site.index_title = "Welcome to Kadpoly-Sport Website"

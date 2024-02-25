@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Register{% endblock %}
+{% block title %} dashboard{% endblock %}
 {% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
 {% block body %}
   <div class="wrapper">
@@ -11,12 +11,14 @@
           <div class="col-12">
             <div class="row align-items-center mb-2">
               <div class="col">
-                <h2 class="h5 page-title">Welcome Richard Emmanuel!</h2>
+                <h2 class="h5 page-title">Welcome {{request.user.name}}!</h2>
               </div>
             </div>
             {% include 'partials/messages.html' %}
 
             <div class="row">
+
+              {% if request.user.is_staff %}
               <div class="col-md-6 col-xl-3 mb-4">
                 <div class="card shadow bg-primary text-white border-0">
                   <div class="card-body">
@@ -27,9 +29,8 @@
                         </span>
                       </div>
                       <div class="col pr-0">
-                        <p class="small text-muted mb-0">Monthly Sales</p>
-                        <span class="h3 mb-0 text-white">$1250</span>
-                        <span class="small text-muted">+5.5%</span>
+                        <p class="small text-muted mb-0">Total Shortlisted</p>
+                        <span class="h3 mb-0 text-white">{{total_shortlisted}}</span>
                       </div>
                     </div>
                   </div>
@@ -41,13 +42,12 @@
                     <div class="row align-items-center">
                       <div class="col-3 text-center">
                         <span class="circle circle-sm bg-primary">
-                          <i class="fe fe-16 fe-shopping-cart text-white mb-0"></i>
+                          <i class="fe fe-16 fe-users text-white mb-0"></i>
                         </span>
                       </div>
                       <div class="col pr-0">
-                        <p class="small text-muted mb-0">Orders</p>
-                        <span class="h3 mb-0">1,869</span>
-                        <span class="small text-success">+16.5%</span>
+                        <p class="small text-muted mb-0">Total Candidate</p>
+                        <span class="h3 mb-0">{{total_candidate}}</span>
                       </div>
                     </div>
                   </div>
@@ -59,20 +59,16 @@
                     <div class="row align-items-center">
                       <div class="col-3 text-center">
                         <span class="circle circle-sm bg-primary">
-                          <i class="fe fe-16 fe-filter text-white mb-0"></i>
+                          <i class="fe fe-16 fe-user text-white mb-0"></i>
                         </span>
                       </div>
                       <div class="col">
-                        <p class="small text-muted mb-0">Conversion</p>
+                        <p class="small text-muted mb-0">Total Admin</p>
                         <div class="row align-items-center no-gutters">
                           <div class="col-auto">
-                            <span class="h3 mr-2 mb-0"> 86.6% </span>
+                            <span class="h3 mr-2 mb-0">{{total_admin}}</span>
                           </div>
-                          <div class="col-md-12 col-lg">
-                            <div class="progress progress-sm mt-2" style="height:3px">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: 87%" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -89,13 +85,42 @@
                         </span>
                       </div>
                       <div class="col">
-                        <p class="small text-muted mb-0">AVG Orders</p>
-                        <span class="h3 mb-0">$80</span>
+                        <p class="small text-muted mb-0">System Users</p>
+                        <span class="h3 mb-0">{{total_users}}</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              {% else %}
+              <div class="col-md-6 col-xl-5 mb-4">
+                <div class="card shadow bg-primary text-white border-0">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-3 text-center">
+                        <span class="circle circle-sm bg-primary-light">
+                          <i class="fe fe-16 fe-shopping-bag text-white mb-0"></i>
+                        </span>
+                      </div>
+                      <div class="col pr-0">
+                        <p class="small text-muted mb-0">Screening Status</p>
+                        <span class="h3 mb-0 text-white">
+                          {% if status %}
+												Shortlisted
+												{% elif status == False%}
+												Pending Review
+												{% else %}
+												No application
+												{% endif %}
+                        </span>
+                        <span class="small text-muted"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+
             </div>
           </div> <!-- .col-12 -->
         </div> <!-- .row -->

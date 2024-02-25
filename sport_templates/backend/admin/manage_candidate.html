@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Manage Candidate{% endblock %}
+{% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
+{% block body %}
+<div class="wrapper">
+  {% include 'partials/login_nav.html' %}
+
+  <main role="main" class="main-content">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <h2 class="page-title">Manage Candidates</h2>
+          <p> The table below contains all candidates information </p>
+          {% include 'partials/messages.html' %}
+
+          <div class="row">
+            <!-- simple table -->
+            <div class="col-md-12 my-4">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h5 class="card-title">Candidate Information</h5>
+                  <p class="card-text">Click to edit and use action button to remove.</p>
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if object_list %}
+                        {% for object in object_list %}
+                          <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td><a href="{% url 'app:edit_candidate' object.user.pk %}"><img src="{{object.user.picture.url}}" width="35" alt=""></a></td>
+                            <td>{{object.user.name}}</td>
+                            <td>{{object.user.email}}</td>
+                            <td>{{object.user.phone}}</td>
+                            <td>
+
+                              {% if object.status %}
+                                <span class="text-success">Shortlisted</span>
+                                {% else %}
+                                <span class="text-warning">Pending</span>
+                              {% endif %}
+                            </td>
+                            <td>
+
+                              {% if not object.status %}
+                              <a href="#" class="btn btn-success" data-toggle="modal" data-target="#shortModal{{forloop.counter}}" style="cursor: pointer;"> <i class="icon-ios-trash"></i>Shortlist</a>
+                              {% endif %}
+
+                              <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{forloop.counter}}" style="cursor: pointer;"> <i class="icon-ios-trash"></i>Delete</a>
+                            </td>
+                          </tr>
+                          <div class="modal fade" id="deleteModal{{forloop.counter}}" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" id="uploadDialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Delete Record for {{object.user.name}}</h5>
+                                  <button type="button" class="close btn btn-secondary" data-dismiss="modal"><span>×</span>
+                                  </button>
+                                </div>
+                                <form method="post" action="{% url 'app:delete_candidate' object.user.pk %}">
+                                  <div class="modal-body">
+                                    <p>Are you sure you want to delete {{object.user.name}} record?</p>
+                                    <img src="{{object.user.picture.url}}" width="100" alt="">
+                                    <p class="mt-2"> <b>NB:</b> This process is non-reversal, both candidate account and application would be delete</p>
+                                    {% csrf_token %}
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger text-white">Delete Candidate</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal fade" id="shortModal{{forloop.counter}}" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" id="uploadDialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Shortlist {{object.user.name}}</h5>
+                                  <button type="button" class="close btn btn-secondary" data-dismiss="modal"><span>×</span>
+                                  </button>
+                                </div>
+                                <form method="post" action="{% url 'app:shortlist_candidate' object.user.pk %}">
+                                  <div class="modal-body">
+                                    <p>Are you sure you want to shortlist {{object.user.name}} record?</p>
+                                    <img src="{{object.user.picture.url}}" width="100" alt="">
+                                    <p class="mt-2"> <b>NB:</b> This process is non-reversal</p>
+                                    {% csrf_token %}
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-success text-white">Shortlist Candidate</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                      {% endif %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> <!-- simple table -->
+          </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+      </div> <!-- .row -->
+    </div> <!-- .container-fluid -->
+{% include "partials/auth_script.html" %}
+{% endblock %}
